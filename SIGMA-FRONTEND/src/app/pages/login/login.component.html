@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Bootstrap 4 HTML, React, Angular 11 & VueJS Admin Dashboard Theme
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Follow: www.twitter.com/keenthemes
+Dribbble: www.dribbble.com/keenthemes
+Like: www.facebook.com/keenthemes
+Purchase: https://1.envato.market/EA4JP
+Renew Support: https://1.envato.market/EA4JP
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<html lang="en">
+	<!--begin::Head-->
+	<head><base href="../../../../">
+		<meta charset="utf-8" />
+		<title>Login Page 2 | Keenthemes</title>
+		<meta name="description" content="Login page example" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<link rel="canonical" href="https://keenthemes.com/metronic" />
+		<!--begin::Fonts-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+		<!--end::Fonts-->
+		<!--begin::Page Custom Styles(used by this page)-->
+		<link href="../../../../public/assets/css/pages/login/classic/login-2.css" rel="stylesheet" type="text/css" />
+		<!--end::Page Custom Styles-->
+	</head>
+	<!--end::Head-->
+	<!--begin::Body-->
+	<body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed subheader-enabled page-loading">
+		<!--begin::Main-->
+		<div class="d-flex flex-column flex-root">
+			<!--begin::Login-->
+			<div class="login login-2 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
+				<!--begin::Aside-->
+				<div class="login-aside order-2 order-lg-1 d-flex flex-column-fluid flex-lg-row-auto bgi-size-cover bgi-no-repeat p-7 p-lg-10">
+					<!--begin: Aside Container-->
+					<div class="d-flex flex-row-fluid flex-column justify-content-between">
+						<!--begin::Aside body-->
+						<div class="d-flex flex-column-fluid flex-column flex-center mt-5 mt-lg-0">
+							<a href="#" class="mb-15 text-center">
+								<img src="../../../../assets/media/imagenes/Logo-Meso-Color.webp" alt="" />
+							</a>
+							<!--begin::Signin-->
+							<div class="login-form login-signin">
+								<div class="text-center mb-10 mb-lg-20">
+									<h2 class="font-weight-bold">Iniciar sesión</h2>
+								</div>
+								<!--begin::Form-->
+								<form class="form" novalidate="novalidate" (ngSubmit)="onLogin()">
+									<div class="form-group py-3 m-0">
+										<input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="email" placeholder="Usuario" [(ngModel)]="loginObj.usuario" name="username" autocomplete="off" required />
+									</div>
+									<div class="form-group py-3 border-top m-0">
+										<input class="form-control h-auto border-0 px-0 placeholder-dark-75" type="password" placeholder="Contraseña" [(ngModel)]="password" name="password" required />
+									</div>
+									<div class="form-group d-flex flex-wrap justify-content-center mt-2 align-items-center">
+										<button id="kt_login_signin_submit" class="btn font-weight-bold px-9 py-4 my-3">Ingresar</button>
+									</div>
+								</form>
+								<!--end::Form-->
+							</div>
+							<!--end::Signin-->
+						</div>
+						<!--end::Aside body-->
+						<!--begin: Aside footer for desktop-->
+						<div class="d-flex flex-column-auto justify-content-between mt-15">
+							<div class="text-dark-50 font-weight-bold order-2 order-sm-1 my-2">© 2024 estudiantes UMES</div>
+						</div>
+						<!--end: Aside footer for desktop-->
+					</div>
+					<!--end: Aside Container-->
+				</div>
+				<!--end::Aside-->
+				<!--begin::Content-->
+				<div class="order-1 order-lg-2 flex-column-auto flex-lg-row-fluid d-flex flex-column p-7" style="background-image: url('../../../assets/media/imagenes/pasarela3.jpg'); background-size: cover; background-repeat: no-repeat;">
+					<!--begin::Content body-->
+					<div class="d-flex flex-column-fluid flex-lg-center">
+					</div>
+					<!--end::Content body-->
+				</div>
+				<!--end::Content-->
+			</div>
+			<!--end::Login-->
+		</div>
+		<!--end::Main-->
+		<!--begin::Page Scripts(used by this page)-->
+		<script src="../../../../public/assets/js/pages/custom/login/login-general.js"></script>
+		<!--end::Page Scripts-->
+	</body>
+	<!--end::Body-->
+</html>

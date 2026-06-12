@@ -1,0 +1,84 @@
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+      <div class="d-flex align-items-center flex-wrap mr-1">
+        <div class="d-flex flex-column">
+          <h2 class="text-white font-weight-bold my-2 mr-5">Reportes</h2>
+          <div class="d-flex align-items-center font-weight-bold my-2">
+            <a [routerLink]="['/inicio']" class="opacity-75 hover-opacity-100">
+              <i class="flaticon2-shelter text-white icon-1x"></i>
+            </a>
+            <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+            <a class="text-white text-hover-white opacity-75 hover-opacity-100">Reporte de stock</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column-fluid">
+    <div class="container">
+      <div class="card card-custom">
+        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+          <div class="card-title">
+            <h3 class="card-label">Reporte de stock total</h3>
+          </div>
+          <div class="card-toolbar" *ngIf="servicePermiso.permisoEspecifico('Imprimir reporte stock de recursos')">
+            <div class="card-toolbar">
+              <div class="toolbar-buttons">
+                <button class="print-btn" (click)="printReport()">
+                  <i class="fas fa-print"></i> Imprimir Reporte
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="dashboard-container">
+            <div class="main-card">
+              <div class="header">
+                <div class="title-section" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+                  <h3 style="text-align: center; margin: 0;">Reporte de stock total de recursos</h3>
+                </div>
+              </div>
+              
+              
+              <div id="detalle-reporte">
+                <img class="image-hiden" src="/assets/media/imagenes/Logo-Meso-Color.png" style="width: 0; height: 0;" />
+                <div class="content">
+                  <ng-container>
+                    <table class="expenses-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 5%; text-align: center;">#</th>
+                          <th style="width: 20%; text-align: center;">Nombre</th>
+                          <th style="width: 40%; text-align: center;">Descripción</th>
+                          <th style="width: 5%; text-align: left;">Existencias</th>
+                          <th style="width: 15%; text-align: right;">Precio</th>
+                          <th style="width: 15%; text-align: right;">Valor del inventario</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let reporte of reportes; let i = index" [attr.key]="i">
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ reporte.nombre }}</td>
+                          <td>{{ reporte.descripcion }}</td>
+                          <td>{{ reporte.existencias }}</td>
+                          <td style="text-align: right;">{{ reporte.precio | currency:'Q':'symbol' }}</td>
+                          <td style="text-align: right;">{{ (reporte.existencias * reporte.precio) | currency:'Q':'symbol' }}</td>                          
+                        </tr>
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <td colspan="5" style="text-align: right;">Total valor en inventario</td>
+                          <td style="text-align: right;">{{ totalInventario | currency:'Q':'symbol' }}</td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </ng-container>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

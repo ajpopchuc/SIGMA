@@ -1,0 +1,17 @@
+//
+// Browsers
+//
+
+@mixin for-ie11 {
+	// Microsoft IE11
+	@media screen and (forced-colors: active), (forced-colors: none) {
+		@content;
+	}
+}
+
+@mixin for-edge {
+    // Microsoft Edge
+	@supports (-ms-ime-align:auto) {
+		@content;
+	}
+}

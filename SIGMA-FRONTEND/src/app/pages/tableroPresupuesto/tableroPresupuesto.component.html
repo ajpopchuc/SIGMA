@@ -1,0 +1,104 @@
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+      <div class="d-flex align-items-center flex-wrap mr-1">
+        <div class="d-flex flex-column">
+          <h2 class="text-white font-weight-bold my-2 mr-5">Presupuesto</h2>
+          <div class="d-flex align-items-center font-weight-bold my-2">
+            <a [routerLink]="['/inicio']" class="opacity-75 hover-opacity-100">
+              <i class="flaticon2-shelter text-white icon-1x"></i>
+            </a>
+            <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+            <a [routerLink]="['/presupuesto']" class="text-white text-hover-white opacity-75 hover-opacity-100">Presupuesto</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="d-flex flex-column-fluid">
+    <div class="container">
+      <div class="card card-custom">
+        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+          <div class="card-title">
+            <h3 class="card-label">Tablero de Presupuesto</h3>
+          </div>
+          <div class="card-toolbar">
+            <div class="card-toolbar">
+              <div class="toolbar-buttons">
+                <button *ngIf="servicePermiso.permisoEspecifico('Imprimir tablero de presupuesto')" class="print-btn" (click)="printReport()">
+                  <i class="fas fa-print"></i> Imprimir Reporte
+                </button>
+                <button *ngIf="servicePermiso.permisoEspecifico('Crear presupuesto')" class="create-btn" [routerLink]="['/presupuesto/crear']">
+                  <i class="fas fa-plus"></i> Crear presupuesto
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="dashboard-container">
+            <div class="main-card">
+                <div class="title-section">
+                  <div class="select-container">
+                    <select 
+                      [(ngModel)]="selectedPresupuestoId" 
+                      (change)="onPresupuestoChange()"
+                      class="custom-select">
+                      <option value="">Selecciona un presupuesto</option>
+                      <option *ngFor="let presupuesto of presupuestos" [value]="presupuesto.id">
+                        {{presupuesto.area}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+            
+            <div id="detalle-compra">
+              <img class="image-hiden" src="/assets/media/imagenes/Logo-Meso-Color.png" style="width: 0; height: 0; " />
+              <div class="content">
+                <table class="expenses-table">
+                  <thead>
+                    <tr>
+                      <th>Factura</th>
+                      <th>Fecha</th>
+                      <th>Total</th>
+                      <th class="no-print">Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let compra of compras">
+                      <td>{{compra.serie_factura}} - {{compra.no_factura}}</td>
+                      <td>{{compra.fecha_factura}}</td>
+                      <td>Q{{compra.total}}</td>
+                      <td class="no-print">
+                        <button class="action-btn" [routerLink]="['/compras', compra.id]">
+                          <i class="fas fa-eye" style="color: #012A15;"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+          
+                <div class="summary-section" *ngIf="presupuestoActual">
+                  <div class="summary-card initial">
+                    <div class="card-label">Saldo Inicial</div>
+                    <div class="amount">Q{{presupuestoActual.monto_presupuesto}}</div>
+                  </div>
+                  <div class="summary-card pending">
+                    <div class="card-label">Saldo Pendiente</div>
+                    <div class="amount">Q{{presupuestoActual.monto_pendiente}}</div>
+                  </div>
+                  <div class="summary-card spent">
+                    <div class="card-label">Saldo Gastado</div>
+                    <div class="amount">Q{{presupuestoActual.presupuesto_ejecutado}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

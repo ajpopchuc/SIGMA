@@ -1,0 +1,13 @@
+.table thead th {
+    background-color: #012A15; /* Cambiar el color de fondo a verde oscuro */
+    color: white; /* Cambiar el color del texto a blanco */
+  }
+
+  .btn {
+    color: white;
+    background-color: #012A15;
+    text-decoration: none;
+    border: 2px solid transparent; /* Contorno inicial transparente */
+    transition: background-color 0.3s, border-color 0.3s; /* Transición suave */
+  }
+ 

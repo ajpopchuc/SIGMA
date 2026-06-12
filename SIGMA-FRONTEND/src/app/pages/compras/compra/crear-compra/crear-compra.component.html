@@ -1,0 +1,244 @@
+<link href="../../../../../../public/assets/css/pages/wizard/wizard-5.css" rel="stylesheet" type="text/css" />
+<div class="d-flex flex-column flex-root">
+	<!--begin::Page-->
+	<div class="d-flex flex-row flex-column-fluid page">
+		<!--begin::Wrapper-->
+		<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+			<!--begin::Header-->
+
+			<!--end::Header-->
+
+			<!--begin::Content-->
+			<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+				<!--begin::Subheader-->
+				<div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+					<div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+					  <div class="d-flex align-items-center flex-wrap mr-1">
+						<div class="d-flex flex-column">
+						  <h2 class="text-white font-weight-bold my-2 mr-5">Compras</h2>
+						  <div class="d-flex align-items-center font-weight-bold my-2">
+							<a href="#" class="opacity-75 hover-opacity-100">
+							  <i class="flaticon2-shelter text-white icon-1x"></i>
+							</a>
+							<span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+							<a href="#" class="text-white text-hover-white opacity-75 hover-opacity-100">Crear compra</a>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				<!--end::Subheader-->
+				<!--begin::Entry-->
+				<div class="d-flex flex-column-fluid">
+					<div class="container">
+					  <div class="d-flex flex-row">
+						<div class="flex-row-fluid ml-lg-8">
+						  <div class="card card-custom gutter-b">
+							<div class="card-header flex-wrap border-0 pt-6 pb-0">
+							  <h3 class="card-title align-items-start flex-column">
+								<span class="card-label font-weight-bolder font-size-h3 text-dark">Registrar nueva compra</span>
+							  </h3>
+							</div>
+							<div class="card-body">
+							  <div class="table-responsive">
+								<form [formGroup]="compraForm" (ngSubmit)="onSubmit()">
+								  <div class="form-row">
+									<div class="col">
+									  <label class="font-size-h6 font-weight-bolder text-dark">Proveedor*</label>
+									  <select formControlName="id_proveedor" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100">
+										<option value="" disabled selected>Selecciona el proveedor</option>
+										<option *ngFor="let proveedor of proveedores" [value]="proveedor.id">{{ proveedor.nombre_proveedor }}</option>
+									  </select>
+									</div>
+									<div class="col">
+									  <label class="font-size-h6 font-weight-bolder text-dark">Fecha Factura*</label>
+									  <input type="date" formControlName="fecha_factura" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100">
+									</div>
+								  </div>
+								  <div class="form-row mt-4">
+									<div class="col">
+										<label class="font-size-h6 font-weight-bolder text-dark">No. Factura*</label>
+										<input type="number" 
+											   formControlName="no_factura" 
+											   class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100"
+											   placeholder="Ingrese el número de factura (ej: 12345)">
+									  </div>
+									  <div class="col">
+										<label class="font-size-h6 font-weight-bolder text-dark">Serie Factura*</label>
+										<input type="text" 
+											   formControlName="serie_factura" 
+											   class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100"
+											   placeholder="Ingrese la serie de factura (ej: A, B1, ABC)">
+									  </div>
+									  <div class="col">
+										<label class="font-size-h6 font-weight-bolder text-dark">Área*</label>
+										<select formControlName="area" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100">
+										  <option value="" disabled selected>Seleccione el área de destino de la compra</option>
+										  <option value="Electricidad">Electricidad</option>
+                                          <option value="Fontanería/Albañilería">Fontanería/Albañilería</option>
+                                          <option value="Carpintería">Carpintería</option>
+                                          <option value="Pintura">Pintura</option>
+                                          <option value="Herreria">Herrería</option>
+                                          <option value="Jardineria">Jardinería</option>
+                                          <option value="Técnico dental">Técnico dental</option>
+                                          <option value="A/C">A/C (Aire acondicionado)</option>
+										</select>
+									  </div>
+								  </div>
+
+								  <div class="form-row mt-4">
+								  <div class="radio-group" >
+									<div class="col">
+									<div class="radio-card">
+									  <input type="radio" id="recursos" formControlName="tipoCompra" value="recursos">
+									  <label for="recursos">Materiales</label>
+									</div>
+									</div>
+									<div class="col">
+									<div class="radio-card">
+									  <input type="radio" id="otras" formControlName="tipoCompra" value="otras">
+									  <label for="otras">Otras Compras</label>
+									</div>
+									</div>
+									<div class="col">
+									<div class="radio-card">
+									  <input type="radio" id="mixta" formControlName="tipoCompra" value="mixta">
+									  <label for="mixta">Compra Mixta</label>
+									</div>
+								  </div>
+								  </div>
+								</div>
+								
+								  <div *ngIf="compraForm.get('tipoCompra')?.value === 'mixta' || compraForm.get('tipoCompra')?.value === 'recursos'">
+									<table class="table mt-5">
+										<thead>
+										<tr>
+											<th class="text-center">Materiales</th>
+											<th class="text-center">Cantidad</th>
+											<!-- Nuevo encabezado  para unidad de medida -->
+											<th class="text-center">Unidad medida</th>
+											<th class="text-center">Precio Unitario Original</th>
+											<th class="text-center">Nuevo Precio</th>
+											<th class="text-center">Subtotal</th>
+											<th></th>
+										</tr>
+										</thead>
+										<tbody formArrayName="items">
+										<tr *ngFor="let item of items.controls; let i = index" [formGroupName]="i">
+											<td style="width: 40%;">
+											<select formControlName="id_recurso" (change)="onRecursoSelect(i)" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100">
+												<option value="" disabled selected>Selecciona el material</option>
+												<option *ngFor="let recurso of recursos" [value]="recurso.id">{{ recurso.nombre }}</option>
+											</select>
+											</td>
+											<td class="text-center">
+											<input type="number" formControlName="cantidad" (input)="updateTotalPrice(i)" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100">
+											</td>
+											<td class="text-center">
+												<input list="unidades" name="unidad_medida" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100" placeholder="Selecciona o ingresa la unidad" formControlName="unidad_medida">
+													<datalist id="unidades">
+													<option value="Metros">
+													<option value="Centímetros">
+													<option value="Milímetros">
+													<option value="Metros cuadrados">
+													<option value="Metros cúbicos">
+													<option value="Pies">
+													<option value="Pulgadas">
+													<option value="Hectáreas">
+													<option value="Kilogramos">
+													<option value="Gramos">
+													<option value="Toneladas">
+													<option value="Litros">
+													<option value="Mililitros">
+													<option value="Galones">
+													<option value="Unidades">
+													<option value="Piezas">
+													<option value="Cajas">
+													<option value="Cubetas">
+													<option value="Rollos">
+													<option value="Juegos">
+													<option value="Pares">
+													<option value="Sets">
+													<option value="Kits">
+													<option value="Meses">
+													<option value="Sacos">
+													<option value="Paquetes">
+												</datalist>
+
+											</td>
+											<td class="text-right">
+												<input type="number" formControlName="precio_unitario" readonly [value]="item.value.precio_unitario" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100">
+											</td>
+											<td class="text-right">
+												<input type="number" formControlName="nuevo_precio" (input)="updateTotalPrice(i)" class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100" placeholder="Nuevo precio (opcional)">
+											</td>
+											<td class="text-right">
+											<input type="number" formControlName="total" readonly class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100">
+											</td>
+											<td>
+											<button type="button" class="btn btn-danger font-weight-bolder font-size-sm" (click)="removeItem(i)">Eliminar</button>
+											</td>
+										</tr>
+										<tr>
+											<td colspan="5">
+											<button type="button" class="btn btn-primary font-weight-bolder font-size-sm" (click)="addItem()">+ Agregar material</button>
+											</td>
+										</tr>
+										<tr *ngIf="compraForm.get('tipoCompra')?.value !== 'mixta'">
+											<td colspan="3" class="font-weight-bolder font-size-h4 text-right">Total</td>
+											<td colspan="2" class="font-weight-bolder font-size-h4 text-right">Q{{ compraForm.get('total')?.value | number:'1.2-2' }}</td>
+										  </tr>
+										</tbody>
+									</table>
+								  </div>
+
+								  <div *ngIf="compraForm.get('tipoCompra')?.value === 'mixta' || compraForm.get('tipoCompra')?.value === 'otras'">
+									<label class="font-size-h6 font-weight-bolder text-dark mt-5">Detalle de compra</label>
+									<textarea formControlName="otras_compras" 
+											  class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100" 
+											  placeholder="Describa la compra realizada, ejemplo: se compro 5 pares de botas, 25 pares de guantes, etc.">
+									</textarea>
+									<label class="font-size-h6 font-weight-bolder text-dark mt-5">Total</label>
+									<input type="text" 
+										   formControlName="total" 
+										   class="form-control h-auto p-5 border-0 rounded-lg font-size-h6 bg-gray-100"
+										   placeholder="Ingrese el total, Ejemplo: 1,000.00"
+										   (input)="onTotalInput($event)">
+								  </div>
+				  
+								  <div class="row mt-5">
+									<div class="col-auto">
+										<button type="button" class="btn btn-outline-danger rounded-lg font-weight-bolder font-size-h6 pl-5 pr-8 py-4 my-3" (click)="cancelar()">
+											Cancelar
+										</button>
+									</div>
+									<div class="col text-right">
+										<button type="submit" class="btn btn-success font-weight-bolder px-8" [disabled]="isSaving">
+											<span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+											Registrar Compra
+										</button>
+									</div>
+								</div>
+								
+								</form>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				  
+				<!--end::Entry-->
+			</div>
+			<!--end::Content-->
+			
+			<!--begin::Footer-->
+
+			<!--end::Footer-->
+		</div>
+		<!--end::Wrapper-->
+	</div>
+	<!--end::Page-->
+</div>
+<!--end::Main-->

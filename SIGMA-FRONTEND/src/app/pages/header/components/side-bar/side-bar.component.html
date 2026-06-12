@@ -1,0 +1,63 @@
+<div class="side-bar" [class.open]="isOpen" id="sidebar">
+  <div class="hamburger" id="hamburger" (click)="toggleSidebar()">
+    ☰
+  </div>
+  
+  <!-- Contenedor deslizante para cuando está abierto -->
+  <div class="side-bar-content">
+    <ul class="menu">
+      <li class="menu-item"
+          *ngFor="let item of menuItems; let i = index"
+          [routerLink]="item.module.route ? item.module.route : null"
+          routerLinkActive="active">
+        
+        <a (click)="item.module.submodule && toggleSubmenu(i, $event)">
+          <!-- El ícono del ítem -->
+          <i [class]="item.module.icon" class="icon"></i>
+          
+          <!-- Texto del ítem -->
+          <span class="menu-text" *ngIf="isOpen">{{ item.module.text }}</span>
+          
+          <!-- Flecha para submenús en móvil -->
+          <i *ngIf="item.module.submodule && isOpen" 
+             class="submenu-arrow"
+             [class.expanded]="isSubmenuExpanded(i)"></i>
+        </a>
+        
+        <!-- Si hay submódulos, se muestran en un ul -->
+        <ul class="submenu" 
+            *ngIf="item.module.submodule"
+            [class.expanded]="isSubmenuExpanded(i)">
+          <a class="sub-menu-item"
+              *ngFor="let sub of item.module.submodule"
+              [routerLink]="sub.route"
+              routerLinkActive="active"
+              [class]="sub.class">
+            <span>{{ sub.text }}</span>
+          </a>
+        </ul>
+        
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Nuevo contenedor para submenus cuando está cerrado -->
+  <div class="closed-submenu-container">
+    <ul class="submenu-floating" 
+        *ngFor="let item of menuItems; let i = index"
+        [style.top]="getSubmenuPosition(i)"
+        [class.visible]="item.module.submodule && clickedIndex === i"
+        (mouseenter)="onSubmenuMouseEnter()"
+        (mouseleave)="onSubmenuMouseLeave()">
+      <li class="sub-menu-item"
+          *ngFor="let sub of item.module.submodule"
+          [routerLink]="sub.route"
+          routerLinkActive="active">
+        <span>{{ sub.text }}</span>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Botón de Cerrar Sesión -->
+  <div class="logout-button" (click)="logout()">Cerrar Sesión</div>
+</div>

@@ -1,0 +1,99 @@
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+      <div class="d-flex align-items-center flex-wrap mr-1">
+        <div class="d-flex flex-column">
+          <h2 class="text-white font-weight-bold my-2 mr-5">Presupuesto</h2>
+          <div class="d-flex align-items-center font-weight-bold my-2">
+            <a [routerLink]="['/inicio']" class="opacity-75 hover-opacity-100">
+              <i class="flaticon2-shelter text-white icon-1x"></i>
+            </a>
+            <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+            <a [routerLink]="['/presupuesto']" class="text-white text-hover-white opacity-75 hover-opacity-100">Presupuesto</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="d-flex flex-column-fluid">
+    <div class="container">
+      <div class="card card-custom">
+        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+          <div class="card-title">
+            <h3 class="card-label">Listado de presupuesto</h3>
+          </div>
+          <div class="card-toolbar">
+            <button *ngIf="servicePermiso.permisoEspecifico('Crear presupuesto')" class="btn btn-primary font-weight-bolder" [routerLink]="['/presupuesto/crear']">
+              <i class="fas fa-plus"></i> Crear nuevo presupuesto
+            </button>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="mb-7">
+            <div class="row align-items-center">
+              <div class="col-lg-9 col-xl-8">
+                <div class="row align-items-center">
+                  <div class="col-md-4 my-2 my-md-0">
+                    <div class="input-icon">
+                      <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchText" (input)="onSearchTextChange()" />
+                      <span>
+                        <i class="flaticon2-search-1 text-muted"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-4 my-2 my-md-0">
+                    <div class="d-flex align-items-center">
+                      <label class="mr-3 mb-0 d-none d-md-block">Estado:</label>
+                      <select class="form-control" [(ngModel)]="selectedStatus" (change)="onStatusChange()">
+                        <option value="Activo" selected>Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <table class="table datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Área</th>
+                <th>Monto inicial</th>
+                <th>Monto ejecutado</th>
+                <th>Monto pendiente</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th>Periodo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let presupuesto of filteredPresupuestoList | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <td>{{ presupuesto.id }}</td>
+                <td>{{ presupuesto.area }}</td>
+                <td>{{ presupuesto.monto_presupuesto | currency:'Q '}}</td>
+                <td>{{ presupuesto.presupuesto_ejecutado | currency:'Q '}}</td>
+                <td [ngClass]="getPendingAmountClass(presupuesto)">
+                    {{ presupuesto.monto_pendiente | currency:'Q '}}
+                </td>
+                <td>{{ formatDate(presupuesto.fecha_inicio) }}</td>
+                <td>{{ formatDate(presupuesto.fecha_fin) }}</td>
+                <td>{{ presupuesto.periodo }}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <pagination-controls
+            class="pagination-controls"
+            (pageChange)="currentPage = $event"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+          ></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

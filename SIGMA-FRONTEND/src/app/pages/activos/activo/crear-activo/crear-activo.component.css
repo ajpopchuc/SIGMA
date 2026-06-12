@@ -1,0 +1,57 @@
+.card-custom {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+}
+
+/* Estilo para hacer los botones más minimalistas con íconos */
+.btn {
+    color: white;
+    background-color: #012A15;
+    text-decoration: none;
+    border: 2px solid transparent; /* Contorno inicial transparente */
+    transition: background-color 0.3s, border-color 0.3s; /* Transición suave */
+  }
+  
+  .btn:hover {
+    background-color: #013A1E; /* Color verde más claro en hover */
+    color: white;
+    border-color: #013A1E; /* Contorno verde en hover */
+  }
+  
+  .btn.active {
+    background-color: #013A1E; /* Color verde más claro cuando está activo */
+    color: white;
+    border-color: #013A1E; /* Contorno verde cuando está activo */
+  }
+  /* codigo qr*/
+  .swal2-popup.swal-wide {
+    width: 350px !important;
+  }
+  
+  .swal2-popup .swal2-image {
+    margin: 1em auto;
+    max-width: 100%;
+  }
+  
+  .swal2-popup .swal2-qr-image {
+    max-width: 100%;
+    height: auto;
+    display: block !important;
+  }
+  
+  /* Ensure the image is visible */
+  .swal2-popup img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+  

@@ -1,0 +1,39 @@
+// tableroPresupuesto.service.ts
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { API_URL } from '../../../constants/api_url';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class HorasHombreService {
+  private usuariosUrl = `${API_URL}reportes/usuarios`;
+  private horasHombreUrl = `${API_URL}reportes/horas_hombre`;
+
+  constructor(private http: HttpClient) {}
+
+  getUsuarios(): Observable<any> {
+    const token = localStorage.getItem('angular17token');
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Accept', 'application/json');
+    return this.http.get<any>(this.usuariosUrl, { headers });
+  }
+
+  getHorasHombre(id_usuario: number, tipo_actividad: string, fecha_inicio: string, fecha_fin: string): Observable<any> {
+    const token = localStorage.getItem('angular17token');
+    const headers = new HttpHeaders()
+      .set('Authorization', `Bearer ${token}`)
+      .set('Accept', 'application/json');
+
+    const body = {
+      id_usuario,
+      tipo_actividad,
+      fecha_inicio,
+      fecha_fin
+    };
+
+    return this.http.post<any>(this.horasHombreUrl, body, { headers });
+  }
+}

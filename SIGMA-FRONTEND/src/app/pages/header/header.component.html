@@ -1,0 +1,43 @@
+<div id="kt_header" class="header header-fixed">
+  <!--begin::Container-->
+  <div class="container d-flex align-items-stretch justify-content-between">
+    <!--begin::Left-->
+    <div class="d-flex align-items-stretch mr-3">
+      <!--begin::Header Logo-->
+      <app-side-bar></app-side-bar>
+      <div class="header-logo">
+        <a href="javascript:;" [routerLink]="['/inicio']">
+          <img alt="Logo" src="assets/media/imagenes/Logo-Meso-Blanco.png" class="logo-default max-h-80px" />
+          <img alt="Logo" src="assets/media/imagenes/Logo-Meso-Blanco.png" class="logo-sticky max-h-80px" />
+        </a>
+      </div>
+      <!--end::Header Logo-->
+    </div>
+    <!--end::Left-->
+    <!--begin::Topbar-->
+    <div class="topbar">
+      <!--begin::User-->
+      <div class="dropdown">
+        <!--begin::Toggle-->
+        <div class="topbar-item">
+          <div class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto">
+            <span  class="opacity-70 font-weight-bold font-size-base d-none d-md-inline mr-1">Hola,</span>
+            <span  class="opacity-90 font-weight-bolder font-size-base d-none d-md-inline mr-4">{{ usuario }}</span>
+            <span class="symbol symbol-35">
+              <span  class="symbol-label font-size-h5 font-weight-bold bg-white-o-30">{{ letra_usuario }}</span>
+            </span>
+          </div>
+        </div>
+        <!--end::Toggle-->
+      </div>
+      <!--end::User-->
+      <!--begin::SignOut-->
+      <div class="topbar-item">
+        <div class="btn btn-icon btn-hover-transparent-white d-flex align-items-center btn-lg px-md-2 w-md-auto" (click)="logout()">Cerrar Sesión</div>
+      </div>
+      <!--end::SignOut-->
+    </div>
+    <!--end::Topbar-->
+  </div>
+  <!--end::Container-->
+</div>

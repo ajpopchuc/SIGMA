@@ -1,0 +1,72 @@
+/* Estilo para hacer los botones más minimalistas con íconos */
+.btn {
+  color: white;
+  background-color: #012A15;
+  text-decoration: none;
+  border: 2px solid transparent; /* Contorno inicial transparente */
+  transition: background-color 0.3s, border-color 0.3s; /* Transición suave */
+}
+
+.btn:hover {
+  background-color: #013A1E; /* Color verde más claro en hover */
+  color: white;
+  border-color: #013A1E; /* Contorno verde en hover */
+}
+
+.btn.active {
+  background-color: #013A1E; /* Color verde más claro cuando está activo */
+  color: white;
+  border-color: #013A1E; /* Contorno verde cuando está activo */
+}
+
+.p-0 {
+  padding: 0 !important;
+}
+
+#kt_content .content {
+  color: green !important;
+}
+
+/* Estilos para los encabezados de la tabla */
+.table thead th {
+  background-color: #012A15; /* Cambiar el color de fondo a verde oscuro */
+  color: white; /* Cambiar el color del texto a blanco */
+}
+
+.card-body {
+  overflow-y: auto; 
+}
+
+.bg-negative {
+  background-color: #3f0101 !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.rounded {
+  border-radius: 4px !important;
+}
+
+.px-2 {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+
+.py-1 {
+  padding-top: 0.25rem !important;
+  padding-bottom: 0.25rem !important;
+}

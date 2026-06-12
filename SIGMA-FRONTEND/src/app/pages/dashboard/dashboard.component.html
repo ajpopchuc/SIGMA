@@ -1,0 +1,159 @@
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+        <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-1">
+                <!--begin::Heading-->
+                <div class="d-flex flex-column">
+                    <!--begin::Title-->
+                    <h2 class="text-white font-weight-bold my-2 mr-5">Inicio</h2>
+                    <!--end::Title-->
+                    <!--begin::Breadcrumb-->
+                    <div class="d-flex align-items-center font-weight-bold my-2">
+                        <!--begin::Item-->
+                        <a [routerLink]="['/inicio']" class="opacity-75 hover-opacity-100">
+                            <i class="flaticon2-shelter text-white icon-1x"></i>
+                        </a>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+                        <a [routerLink]="['/inicio']" class="text-white text-hover-white opacity-75 hover-opacity-100"></a>
+                        <!--end::Item-->
+                    </div>
+                    <!--end::Breadcrumb-->
+                </div>
+                <!--end::Heading-->
+            </div>
+            <!--end::Info-->
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+
+        <div class="container">
+            <div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <input type="text" 
+                                   id="kt_daterangepicker_6" 
+                                   class="form-control w-200px mx-3" 
+                                   [(ngModel)]="fechaSeleccionada"/>
+                            <button class="btn btn-primary" (click)="cargarEstadisticas()">
+                                Cargar estadisticas
+                            </button>
+                        </div>    
+                    </div>
+                </div>
+            <!-- Gráfico de líneas -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Tendencia de inspecciones mensuales</h4>
+                                <button class="btn btn-sm btn-primary beforedownload" (click)="downloadChart('graficaLineaInspecciones', 'tendencia_inspecciones.png')">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                            </div>
+                            <div class="chart-wrapper line-chart-wrapper">
+                                <canvas id="graficaLineaInspecciones"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gráficos de barras y pie -->
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Estado actual de inspecciones del mes</h4>
+                                <button class="btn btn-sm btn-primary beforedownload" (click)="downloadChart('graficaBarrasInspecciones', 'estado_inspecciones.png')">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                            </div>
+                            <div class="chart-wrapper small-chart-wrapper">
+                                <canvas id="graficaBarrasInspecciones"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Distribución de inspecciones del mes</h4>
+                                <button class="btn btn-sm btn-primary beforedownload" (click)="downloadChart('graficaPieInspecciones', 'distribucion_inspecciones.png')">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                            </div>
+                            <div class="chart-wrapper small-chart-wrapper">
+                                <canvas id="graficaPieInspecciones"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Estado actual de mantenimientos del mes</h4>
+                                <button class="btn btn-sm btn-primary beforedownload" (click)="downloadChart('graficaBarrasMantenimientos', 'estado_mantenimientos.png')">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                            </div>
+                            <div class="chart-wrapper small-chart-wrapper">
+                                <canvas id="graficaBarrasMantenimientos"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Distribución de mantenimientos del mes</h4>
+                                <button class="btn btn-sm btn-primary beforedownload" (click)="downloadChart('graficaPieMantenimientos', 'distribucion_mantenimientos.png')">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                            </div>
+                            <div class="chart-wrapper small-chart-wrapper">
+                                <canvas id="graficaPieMantenimientos"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Distribución de supervisiones mensuales</h4>
+                                <button class="btn btn-sm btn-primary beforedownload" (click)="downloadChart('graficaPieSupervisiones', 'tendencia_supervisiones.png')">
+                                    <i class="fas fa-download"></i> Descargar
+                                </button>
+                            </div>
+                            <div class="chart-wrapper line-chart-wrapper">
+                                <canvas id="graficaPieSupervisiones"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>

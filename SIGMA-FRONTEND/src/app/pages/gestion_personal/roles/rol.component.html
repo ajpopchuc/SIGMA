@@ -1,0 +1,237 @@
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+      <div class="d-flex align-items-center flex-wrap mr-1">
+        <div class="d-flex flex-column">
+          <h2 class="text-white font-weight-bold my-2 mr-5">Roles</h2>
+          <div class="d-flex align-items-center font-weight-bold my-2">
+            <a [routerLink]="['/inicio']" class="opacity-75 hover-opacity-100">
+              <i class="flaticon2-shelter text-white icon-1x"></i>
+            </a>
+            <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+            <a  class="text-white text-hover-white opacity-75 hover-opacity-100">Gestion de usuarios y roles</a>
+            <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+            <a  [routerLink]="['/roles']" class="text-white text-hover-white opacity-75 hover-opacity-100">Roles</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column-fluid">
+    <div class="container">
+      <div class="card card-custom">
+        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+          <div class="card-title" *ngIf="service.permisoEspecifico('Ver roles')">
+            <h3 class="card-label">Listado de roles</h3>
+          </div>
+          <div class="card-toolbar" *ngIf="service.permisoEspecifico('Crear rol')">
+            <button (click)="openModalCrear()" class="btn btn-primary font-weight-bolder">Crear nuevo rol</button>
+          </div>
+        </div>
+        <div class="card-body" *ngIf="service.permisoEspecifico('Ver roles')">
+          <div class="mb-7">
+            <div class="row align-items-center">
+              <div class="col-lg-9 col-xl-8">
+                <div class="row align-items-center">
+                  <div class="col-md-4 my-2 my-md-0">
+                    <div class="input-icon">
+                      <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchText" (input)="onSearchTextChange()" />
+                      <span>
+                        <i class="flaticon2-search-1 text-muted"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table class="table datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nombre del rol</th>
+                <th style="width: 100px;">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let rol of filteredRoles | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <td>{{ rol.id }}</td>
+                <td>{{ rol.nombre }}</td>
+                <td style="display: flex; justify-content: center; align-items: center;">
+                  <a href="javascript:void(0)" (click)="openEditModal(rol)" *ngIf="service.permisoEspecifico('Editar rol')">
+                    <i class="fas fa-edit" style="color: #012A15;"></i>
+                  </a>
+                  &nbsp;
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            class="pagination-controls"
+            (pageChange)="currentPage = $event"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+          ></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--begin::Modals-->
+  <!--begin::Modal - Add role-->
+  <div class="modal" [style.display]="isModalOpen ? 'block' : 'none'">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog" style="max-width: 65vw;">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Modal header-->
+        <div class="modal-header">
+          <!--begin::Modal title-->
+          <h2 class="fw-bolder">Crear rol</h2>
+          <!--end::Modal title-->
+          <!--begin::Close-->
+          <div>
+          <button (click)="closeModalCrear()">
+            <!--begin::Svg Icon | path: icons/duotone/Navigation/Close.svg-->
+            <span class="svg-icon svg-icon-1">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                  <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                  <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                </g>
+              </svg>
+            </span>
+            <!--end::Svg Icon-->
+          </button>
+        </div>
+        </div>
+        <!--end::Modal header-->
+        <!--begin::Modal body-->
+      <div class="modal-body scroll-y mx-lg-5 my-7">
+        <!--begin::Form-->
+        <form id="kt_modal_add_role_form" class="form">
+          <!--begin::Scroll-->
+          <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_add_role_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_add_role_header" data-kt-scroll-wrappers="#kt_modal_add_role_scroll" data-kt-scroll-offset="300px" style="max-height: 500px; overflow-y: auto;">
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+              <!--begin::Label-->
+              <label class="fs-5 fw-bolder form-label mb-2">
+                <span class="required"><h3>Nombre del rol</h3></span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <input class="form-control form-control-solid" placeholder="Ingrese el nombre del rol" [(ngModel)]="nombreRol" name="nombre" />
+              <!--end::Input-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Permissions-->
+            <div class="fv-row">
+              <label class="fs-5 fw-bolder form-label mb-2"><h3>Permisos del rol</h3></label>
+              <div *ngFor="let module of permissionsByModule" class="mb-4">
+                <h4 style="text-align: center;">{{ module.module }}</h4><br>
+                <div class="row">
+                  <div class="col-md-4 mb-3" *ngFor="let permiso of module.permissions">
+                    <label class="checkbox checkbox-rounded checkbox-lg">
+                      <input type="checkbox" [checked]="permiso.isSelected" (change)="onPermissionChange(permiso)" />
+                      <span></span><strong>&nbsp;&nbsp;{{ permiso.nombre }}</strong>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end::Permissions-->
+          </div>
+          <!--end::Scroll-->
+          <!--begin::Actions-->
+          <div class="text-center pt-3">
+            <button class="btn btn-white me-3"(click)="closeModalCrear()">Cancelar</button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" (click)="submitForm()" [disabled]="isSaving"><span *ngIf="isSaving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>Guardar</button>
+          </div>
+          <!--end::Actions-->
+        </form>
+        <!--end::Form-->
+      </div>
+      <!--end::Modal body-->
+
+      </div>
+      <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+  </div> 
+  <!--end::Modal - Add role-->
+  <!--begin::Modal - Edit role-->
+  <div class="modal" [style.display]="isEditModalOpen ? 'block' : 'none'">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog" style="max-width: 65vw;">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Modal header-->
+        <div class="modal-header">
+          <!--begin::Modal title-->
+          <h2 class="fw-bolder">Editar rol</h2>
+          <!--end::Modal title-->
+          <!--begin::Close-->
+          <div>
+          <button (click)="closeEditModal()">
+            <!--begin::Svg Icon | path: icons/duotone/Navigation/Close.svg-->
+            <span class="svg-icon svg-icon-1">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                  <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                  <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                </g>
+              </svg>
+            </span>
+            <!--end::Svg Icon-->
+          </button>
+        </div>
+        </div>
+        <!--end::Modal header-->
+        <!--begin::Modal body-->
+      <div class="modal-body scroll-y mx-lg-5 my-7">
+        <!--begin::Form-->
+        <form id="kt_modal_edit_role_form" class="form">
+          <!--begin::Scroll-->
+          <div class="d-flex flex-column scroll-y me-n7 pe-7" id="kt_modal_edit_role_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_role_header" data-kt-scroll-wrappers="#kt_modal_edit_role_scroll" data-kt-scroll-offset="300px" style="max-height: 500px; overflow-y: auto;">
+            <!--begin::Input group-->
+            <div class="fv-row mb-10">
+              <!--begin::Label-->
+              <label class="fs-5 fw-bolder form-label mb-2">
+                <span class="required"><h3>Nombre del rol</h3></span>
+              </label>
+              <!--end::Label-->
+              <!--begin::Input-->
+              <input class="form-control form-control-solid" placeholder="Ingrese el nombre del rol" [(ngModel)]="nombreRol" name="nombre" />
+              <!--end::Input-->
+              <input type="hidden" [(ngModel)]="rol_id" name="rol_id" />
+            </div>
+            <!--end::Input group-->
+            <!--begin::Permissions-->
+            <div class="fv-row">
+              <label class="fs-5 fw-bolder form-label mb-2"><h3>Permisos del rol</h3></label>
+              <div *ngFor="let module of permissionsByModule" class="mb-4">
+                <h4 style="text-align: center;">{{ module.module }}</h4><br>
+                <div class="row">
+                  <div class="col-md-4 mb-3" *ngFor="let permiso of module.permissions">
+                    <label class="checkbox checkbox-rounded checkbox-lg">
+                      <input type="checkbox" [checked]="permiso.isSelected" (change)="onPermissionChange(permiso)" />
+                      <span></span><strong>&nbsp;&nbsp;{{ permiso.nombre }}</strong>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--end::Permissions-->
+          </div>
+          <!--end::Scroll-->
+          <!--begin::Actions-->
+          <div class="text-center pt-3">
+            <button class="btn btn-white me-3"(click)="closeEditModal()">Cancelar</button>&nbsp;&nbsp;
+            <button type="button" class="btn btn-primary" (click)="submitEditForm()">Editar</button>
+          </div>
+          <!--end::Actions-->
+        </form>
+        <!--end::Form-->
+      </div>
+      <!--end::Modal body-->
+  <!--end::Modals-->
+</div>

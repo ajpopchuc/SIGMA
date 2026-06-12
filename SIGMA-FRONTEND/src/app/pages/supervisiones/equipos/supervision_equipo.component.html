@@ -1,0 +1,281 @@
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+      <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+          <div class="d-flex align-items-center flex-wrap mr-1">
+              <div class="d-flex flex-column">
+                  <h2 class="text-white font-weight-bold my-2 mr-5">Supervision de equipos</h2>
+                  <div class="d-flex align-items-center font-weight-bold my-2">
+                      <a [routerLink]="['/inicio']" class="opacity-75 hover-opacity-100">
+                          <i class="flaticon2-shelter text-white icon-1x"></i>
+                      </a>
+                      <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+                      <a [routerLink]="['/supervisiones/equipos']" class="text-white text-hover-white opacity-75 hover-opacity-100">Supervisiones</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="d-flex flex-column-fluid">
+      <div class="container">
+          <div class="card card-custom">
+              <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                  <div class="card-title">
+                      <h3 class="card-label">Listado de supervisiones de equipos</h3>
+                  </div>
+              </div>
+              <div class="card-body">
+                  <div class="mb-7">
+                      <div class="row align-items-center">
+                          <div class="col-lg-9 col-xl-8">
+                              <div class="row align-items-center">
+                                  <div class="col-md-4 my-2 my-md-0">
+                                      <div class="input-icon">
+                                          <input type="text" class="form-control" placeholder="Buscar..." [(ngModel)]="searchText" (input)="onSearchTextChange()" />
+                                          <span>
+                                              <i class="flaticon2-search-1 text-muted"></i>
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                  <table class="table datatable datatable-bordered datatable-head-custom" id="kt_datatable">
+                      <thead>
+                          <tr>
+                              <th>Id</th>
+                              <th>Descripción</th>
+                              <th>Resumen de Actividad</th>
+                              <th>Observaciones</th>
+                              <th>Usuario</th>
+                              <th>Fecha</th>
+                              <th style="width: 100px;">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr *ngFor="let supervision of filteredSupervisiones | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                              <td>{{ supervision.id }}</td>
+                              <td>{{ supervision.descripcion }}</td>
+                              <td>{{ supervision.resumen_actividad }}</td>
+                              <td>{{ supervision.observaciones }}</td>
+                              <td>{{ supervision.usuario }}</td>
+                              <td>{{ supervision.created_at | date:'dd/MM/yyyy' }}</td>
+                              <td style="display: flex; justify-content: center; align-items: center;">
+                                <a href="javascript:void(0)" (click)="verSupervision(supervision.id)" title="Ver supervision">
+                                  <i class="fas fa-eye" style="color: #012A15;"></i>
+                                </a>
+                                &nbsp;&nbsp;
+                                  <a href="javascript:void(0)" 
+                                  [ngStyle]="{ visibility: supervision.resumen_actividad?.toLowerCase() === 'deficiente' ? 'visible' : 'hidden' }"
+                                  (click)="calendarizar(supervision)" title="Calendarizar mantenimiento">
+                                  <i class="la la-calendar-alt icon-2x" style="color: #012A15;"></i>
+                                  </a>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                  <pagination-controls
+                      class="pagination-controls"
+                      (pageChange)="currentPage = $event"
+                      previousLabel="Anterior"
+                      nextLabel="Siguiente">
+                  </pagination-controls>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+  <!--begin::Modal - Ver supervision-->
+  <div class="modal" [style.display]="isModalOpen ? 'block' : 'none'" style="height: 90%; overflow-y: auto;">
+    <!--begin::Modal dialog-->
+    <div class="modal-dialog" style="max-width: 90%;">
+      <!--begin::Modal content-->
+      <div class="modal-content">
+        <!--begin::Modal header-->
+        <div class="modal-header">
+          <!--begin::Modal title-->
+          <h2 class="fw-bolder">Ver supervision</h2>
+          <!--end::Modal title-->
+          <!--begin::Close-->
+          <div>
+          <button (click)="closeVerModal()">
+            <!--begin::Svg Icon | path: icons/duotone/Navigation/Close.svg-->
+            <span class="svg-icon svg-icon-1">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                <g transform="translate(12.000000, 12.000000) rotate(-45.000000) translate(-12.000000, -12.000000) translate(4.000000, 4.000000)" fill="#000000">
+                  <rect fill="#000000" x="0" y="7" width="16" height="2" rx="1" />
+                  <rect fill="#000000" opacity="0.5" transform="translate(8.000000, 8.000000) rotate(-270.000000) translate(-8.000000, -8.000000)" x="0" y="7" width="16" height="2" rx="1" />
+                </g>
+              </svg>
+            </span>
+            <!--end::Svg Icon-->
+          </button>
+        </div>
+        </div>
+        <!--end::Modal header-->
+        <!--begin::Modal body-->
+        <div class="modal-body scroll-y mx-lg-5 my-7" *ngIf="supervision_detalle">
+          <!--begin::Card-->
+          <div class="card card-custom gutter-b">
+            <div class="card-body">
+              <div class="d-flex">
+                <!--begin: Pic-->
+                <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
+                  <div class="symbol symbol-50 symbol-lg-120">
+                    <img alt="Pic" src="assets/media/imagenes/evaluacion.png" />
+                  </div>
+                </div>
+                <!--end: Pic-->
+                <!--begin: Info-->
+                <div class="flex-grow-1">
+                  <!--begin: Title-->
+                  <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <div class="mr-3">
+                      <!--begin::Name-->
+                      <a href="javascript:void(0)" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">Supervision {{ supervision_detalle.id }}
+                      <i class="flaticon2-correct text-success icon-md ml-2"></i></a>
+                      <!--end::Name-->
+                      <!--begin::Contacts-->
+                      <div class="d-flex flex-wrap my-2">
+                        <a href="#" class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
+                        <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
+                          <!--begin::Svg Icon | path:assets/media/svg/icons/General/User.svg-->
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path opacity="0.3" d="M12 12C15.3137 12 18 9.31371 18 6C18 2.68629 15.3137 0 12 0C8.68629 0 6 2.68629 6 6C6 9.31371 8.68629 12 12 12Z" fill="currentColor"/>
+                            <path d="M3 20C3 16.6863 5.68629 14 9 14H15C18.3137 14 21 16.6863 21 20V22H3V20Z" fill="currentColor"/>
+                          </svg>                        
+                          <!--end::Svg Icon-->
+                        </span>{{supervision_detalle.usuario}}</a>
+                        <a href="#" class="text-muted text-hover-primary font-weight-bold">
+                          <i class="fas fa-toolbox mr-1"></i>{{supervision_detalle.lugar_mantenimiento}}</a>
+                      </div>
+                      <!--end::Contacts-->
+                    </div>
+                    <div class="mr-3">
+                      <div class="d-flex flex-wrap align-items-center py-2">
+                        <div class="d-flex align-items-center mr-10">
+                          <div class="mr-6 text-center">
+                            <div class="font-weight-bold mb-2">Fecha de supervisión:</div>
+                            <span class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">{{formatFechaSupervision(supervision_detalle.created_at)}}</span>
+                          </div>
+                          <div class="text-center">
+                            <div class="font-weight-bold mb-2">Duración de la supervisión:</div>
+                            <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">{{supervision_detalle.tiempo_ejecucion}} minutos</span>
+                          </div>
+                        </div>
+                        <div class="flex-grow-1 flex-shrink-0 w-150px w-xl-300px mt-4 mt-sm-0">
+                          <span class="font-weight-bold">Resumen de la actividad</span>
+                          <div class="progress progress-xs mt-2 mb-2">
+                            <div 
+                              class="progress-bar" 
+                              role="progressbar"
+                              [ngClass]="{
+                                'bg-success': supervision_detalle.resumen_actividad === 'Aceptable',
+                                'bg-warning': supervision_detalle.resumen_actividad === 'Regular',
+                                'bg-danger': supervision_detalle.resumen_actividad === 'Deficiente'
+                              }"
+                              [style.width]="
+                                supervision_detalle.resumen_actividad === 'Aceptable' ? '100%' :
+                                supervision_detalle.resumen_actividad === 'Regular' ? '66%' :
+                                '33%'
+                              "
+                              aria-valuenow="supervision_detalle.resumen_actividad === 'Aceptable' ? 100 : supervision_detalle.resumen_actividad === 'Regular' ? 66 : 33"
+                              aria-valuemin="0"
+                              aria-valuemax="100"
+                            ></div>
+                          </div>
+                          <span class="font-weight-bolder text-dark">{{ supervision_detalle.resumen_actividad }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--end: Title-->
+                  <!--begin: Content-->
+                  <div class="d-flex align-items-center flex-wrap justify-content-between">
+                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                      <span class="font-weight-bold text-dark">Descripción:</span> {{ supervision_detalle.descripcion }}
+                    </div>
+                    <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                      <span class="font-weight-bold text-dark">Observaciones:</span> {{ supervision_detalle.observaciones }}
+                    </div>
+                  </div>
+                  
+                  <!--end: Content-->
+                </div>
+                <!--end: Info-->
+              </div>
+              
+            </div>
+          </div>
+          <!--end::Card-->
+          <!--begin::Row-->
+          <!--begin::Row-->
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-custom card-stretch gutter-b">
+                <!--begin::Header-->
+                <h3 class="card-title align-items-start flex-column">
+                  <span class="card-label font-weight-bolder text-dark">Fotografías</span>
+                </h3>
+                <div class="card-toolbar container-photo-gallery d-flex justify-content-center flex-wrap">
+                  <div *ngFor="let imagen of supervision_detalle.imagenes; let i = index" class="box-gallery mx-4 flex-grow-1" style="flex-basis: 25%; max-width: 25%;">
+                    <!-- Skeleton de carga -->
+                    <div *ngIf="!imagen.loaded" class="skeleton"></div>
+                    <!-- Imagen -->
+                    <img [src]="imagen.url" 
+                        alt="Imagen de inspección" 
+                        (click)="openImageModal(imagen.url, i)" 
+                        (load)="imagen.loaded = true"
+                        [class.loaded]="imagen.loaded">
+                    <!-- Etiquetas para tipo de fotografía -->
+                    <div class="text-center mt-2">
+                      <span *ngIf="i === 0">Fotografía inicial</span>
+                      <span *ngIf="i > 0 && i < supervision_detalle.imagenes.length - 1">Fotografía adicional</span>
+                      <span *ngIf="i === supervision_detalle.imagenes.length - 1">Fotografía final</span>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal de imágenes -->
+                <div class="modal-imagen" *ngIf="isImageModalOpen" (click)="closeImageModal()">
+                  <div class="modal-imagen-content" (click)="$event.stopPropagation()">
+                    <button class="nav-button prev" 
+                            (click)="previousImage()" 
+                            [class.disabled]="currentImageIndex === 0">
+                      <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-button next" 
+                            (click)="nextImage()" 
+                            [class.disabled]="currentImageIndex === imagesArray.length - 1">
+                      <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <img [src]="selectedImageModalUrl" 
+                        (wheel)="onWheel($event)"
+                        (mousedown)="onMouseDown($event)"
+                        (mousemove)="onMouseMove($event)"
+                        (mouseup)="onMouseUp()"
+                        (mouseleave)="onMouseUp()"
+                        (dblclick)="onDoubleClick()"
+                        [style.transform]="'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + imageScale + ')'">
+                    <span class="close-imagen" (click)="closeImageModal()">
+                      <i class="fas fa-times"></i>
+                    </span>
+                  </div>
+                </div>
+                <!--end::Header-->
+              </div>
+            </div>
+          </div>
+          <!--end::Row-->
+
+          <!--end::Row-->
+        </div>
+        <!--end::Modal body-->
+  
+      </div>
+      <!--end::Modal content-->
+    </div>
+    <!--end::Modal dialog-->
+  </div> 
+  <!--end::Modal - Ver supervision-->

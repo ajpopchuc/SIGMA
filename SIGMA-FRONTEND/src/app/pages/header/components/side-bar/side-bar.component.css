@@ -1,0 +1,284 @@
+.side-bar {
+  position: fixed; /* Sidebar fijo */
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px;
+  background-color: transparent;
+  overflow-x: visible;
+  transition: width 0.3s, background-color 0.3s;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+/* Contenedor interno desplazable */
+.side-bar-content {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.side-bar-content::-webkit-scrollbar {
+  display: none;
+}
+
+.side-bar.open {
+  width: 20%;
+  background-color: rgba(1, 42, 21, 0.9);
+}
+
+.hamburger {
+  font-size: 30px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 16px;
+  cursor: pointer;
+  color: white; /* Color por defecto */
+  z-index: 1100;
+  transition: color 0.8s; /* Suaviza el cambio de color */
+}
+
+
+.menu {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu-item:hover {
+  background-color: #014021; /* Color de fondo en hover */
+}
+
+.icon {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.menu-text {
+  display: none;
+}
+
+.side-bar.open .menu-text {
+  display: inline-block;
+}
+
+.submenu {
+  list-style: none;
+  padding-left: 20px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  width: 100%;
+  opacity: 0;
+}
+
+.side-bar:not(.open) .submenu {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  background-color: rgba(1, 42, 21, 0.9);
+  padding: 10px;
+  border-radius: 0 5px 5px 0;
+  width: auto;
+  min-width: 150px;
+  max-height: none;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.side-bar.open .submenu.expanded {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* ...existing code... */
+
+.sub-menu-item {
+  padding: 4px 10px;
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s;
+  white-space: nowrap;
+  color: white;
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  display: block;
+  text-decoration: none;
+  width: 100%;
+}
+
+.sub-menu-item:hover {
+  background-color: #014021;
+  opacity: 0.8;
+  text-decoration: none;
+}
+
+/* ...existing code... */
+
+.sub-menu-item:hover::before {
+  content: '▸';
+  position: absolute;
+  left: -5px;
+  color: white;
+}
+
+.sub-menu-item:hover {
+  background-color: #014021;
+  opacity: 0.8;
+}
+
+.menu-item:hover .sub-menu-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.side-bar.open .sub-menu-item:hover {
+  background-color: #014021;
+  opacity: 0.8;
+}
+
+.submenu-arrow {
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.submenu-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.logout-button {
+  margin-top: auto;
+  padding: 10px 15px;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  display: none;
+}
+
+.logout-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 950px) {
+  .side-bar.open .logout-button {
+    display: block;
+  }
+}
+
+@media (max-width: 950px) {
+  .side-bar {
+    width: 0;
+  }
+
+  .side-bar.open {
+    width: 40%;
+  }
+
+  .icon {
+    display: none;
+  }
+
+  .side-bar.open .icon {
+    display: inline-block;
+  }
+
+  .side-bar.open .menu-text {
+    display: inline-block;
+  }
+
+  .menu-item {
+    display: none;
+  }
+
+  .side-bar.open .menu-item {
+    display: flex;
+  }
+
+  .submenu {
+    position: static !important;
+    background-color: transparent !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .side-bar.open .submenu.expanded {
+    max-height: 500px;
+  }
+}
+
+/* ...existing code... */
+
+.closed-submenu-container {
+  position: fixed;
+  left: 60px;
+  top: 0;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+.submenu-floating {
+  position: fixed; /* Change from absolute to fixed */
+  left: 60px;
+  background-color: rgba(1, 42, 21, 0.9);
+  padding: 18px;
+  border-radius: 0 5px 5px 0;
+  min-width: 150px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  list-style: none;
+}
+
+.submenu-floating.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.side-bar.open .closed-submenu-container {
+  display: none;
+}
+
+/* Ajustar los estilos existentes */
+.side-bar-content {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.side-bar.open .submenu {
+  position: static;
+  background-color: transparent;
+}
+
+/* ...existing code... */
+
+.submenu-floating .sub-menu-item {
+  color: white; /* Add white color to floating submenu text */
+}
+
+/* ...existing code... */
+/* Existing styles remain unchanged */
+

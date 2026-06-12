@@ -1,0 +1,123 @@
+.card-custom {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+}
+
+/* Estilo para hacer los botones más minimalistas con íconos */
+.btn {
+    color: white;
+    background-color: #012A15;
+    text-decoration: none;
+    border: 2px solid transparent; /* Contorno inicial transparente */
+    transition: background-color 0.3s, border-color 0.3s; /* Transición suave */
+  }
+  
+  .btn:hover {
+    background-color: #013A1E; /* Color verde más claro en hover */
+    color: white;
+    border-color: #013A1E; /* Contorno verde en hover */
+  }
+  
+  .btn.active {
+    background-color: #013A1E; /* Color verde más claro cuando está activo */
+    color: white;
+    border-color: #013A1E; /* Contorno verde cuando está activo */
+  }
+  /* codigo qr*/
+  .swal2-popup.swal-wide {
+    width: 350px !important;
+  }
+  
+  .swal2-popup .swal2-image {
+    margin: 1em auto;
+    max-width: 100%;
+  }
+  
+  .swal2-popup .swal2-qr-image {
+    max-width: 100%;
+    height: auto;
+    display: block !important;
+  }
+  
+  /* Ensure the image is visible */
+  .swal2-popup img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .radio-group {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: nowrap; /* Evita que los elementos bajen de línea */
+  }
+  
+  .radio-card {
+    position: relative;
+    flex: 1;
+  }
+
+  .radio-card {
+    flex: none; /* Evita que los radio cards se redimensionen automáticamente */
+}
+  
+  .radio-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+  }
+  
+  .radio-card label {
+    display: inline-flex; /* Mantiene el contenido en una sola línea */
+    align-items: center;
+    justify-content: center;
+    padding: 1rem 1.5rem; /* Ajuste del padding */
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Evita el salto de línea */
+}
+  .radio-card input[type="radio"]:checked + label {
+    background: #012A15;
+    color: white;
+    border-color: #012A15;
+  }
+  
+  .radio-card label:hover {
+    background: #e9ecef;
+  }
+  
+  .radio-card input[type="radio"]:checked + label:hover {
+    background: #013A1E;
+  }
+  
+  /* Optional: Add an icon indicator */
+  .radio-card label::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #adb5bd;
+    border-radius: 50%;
+    margin-right: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  .radio-card input[type="radio"]:checked + label::before {
+    border-color: white;
+    background: white;
+    
+  }
+  

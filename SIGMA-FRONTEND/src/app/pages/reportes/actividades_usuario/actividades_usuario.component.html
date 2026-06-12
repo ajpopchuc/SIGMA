@@ -1,0 +1,94 @@
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+  <div class="subheader py-2 py-lg-12 subheader-transparent" id="kt_subheader">
+    <div class="container d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+      <div class="d-flex align-items-center flex-wrap mr-1">
+        <div class="d-flex flex-column">
+          <h2 class="text-white font-weight-bold my-2 mr-5">Reportes</h2>
+          <div class="d-flex align-items-center font-weight-bold my-2">
+            <a [routerLink]="['/inicio']" class="opacity-75 hover-opacity-100">
+              <i class="flaticon2-shelter text-white icon-1x"></i>
+            </a>
+            <span class="label label-dot label-sm bg-white opacity-75 mx-3"></span>
+            <a class="text-white text-hover-white opacity-75 hover-opacity-100">Reporte de actividades por usuario</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-column-fluid">
+    <div class="container">
+      <div class="card card-custom">
+        <div class="card-header flex-wrap border-0 pt-6 pb-0">
+          <div class="card-title">
+            <h3 class="card-label">Reporte de actividades por usuario</h3>
+          </div>
+          <div class="card-toolbar" *ngIf="servicePermiso.permisoEspecifico('Imprimir reporte actividades de usuario')" >
+            <div class="toolbar-buttons">
+              <button class="print-btn" (click)="printReport()">
+                <i class="fas fa-print"></i> Imprimir reporte
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="dashboard-container">
+            <div class="main-card">
+              <div>
+                <div class="title-section">
+                  <div class="select-container d-flex align-items-center">
+                    <select class="form-control mr-3" 
+                          (change)="onUsuarioChange($event)" 
+                          [(ngModel)]="usuarioSeleccionado" 
+                          [disabled]="isLoading">
+                    <option [value]="0">Seleccione un usuario</option>
+                    <option *ngFor="let usuario of usuarios" [value]="usuario.id">
+                      {{ usuario.usuario }}
+                    </option>
+                  </select>
+                    <select class="form-control mr-3" [(ngModel)]="tipoActividad" [disabled]="isLoading">
+                      <option value="todos">Todas las actividades</option>
+                      <option value="mantenimiento">Mantenimiento</option>
+                      <option value="inspeccion">Inspección</option>
+                      <option value="supervision">Supervisión</option>
+                    </select>
+                    <input type="text" id="kt_daterangepicker_6" class="form-control mr-3" [(ngModel)]="fechaSeleccionada" [disabled]="isLoading"/>
+                    <button class="btn btn-primary" (click)="loadActividades()" [disabled]="isLoading">
+                      Cargar Reporte
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div id="detalle-reporte">
+                <div class="content mt-4">
+                  <table class="expenses-table">
+                    <thead>
+                      <tr>
+                        <th>Fecha</th>
+                        <th>Tipo de actividad</th>
+                        <th>Total de actividades</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let actividad of actividades">
+                        <td>{{ actividad.mes }}</td>
+                        <td>{{ actividad.tipo | titlecase }}</td>
+                        <td>{{ actividad.total }}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="2"><strong>Total de actividades</strong></td>
+                        <td><strong>{{ totalActividades }}</strong></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
